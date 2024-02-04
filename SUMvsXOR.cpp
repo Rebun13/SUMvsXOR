@@ -3,9 +3,7 @@
 #include <vector>
 #include <string>
 #include <bitset>
-#include <math.h>
-
-#define CHAR_BIT 8
+#include <cmath>
 
 using namespace std;
 
@@ -15,22 +13,9 @@ string rtrim(const string &);
 /*
  * The function is expected to return a LONG_INTEGER.
  * The function accepts LONG_INTEGER n as parameter.
- */
-
+ */ 
 long sumXorAlt(long n) {
-    int counter = 0;
-    for(long i = 0; i <= n; i++) {
-        long a = n + i, b = n ^ i;
-        if(a == b) {
-            printf("%d ) %d : %d \n", i, a, b);
-            counter ++;
-        }
-    }
-    return counter;
-}
-
-long sumXor(long n) {
-    bitset<sizeof(int) * CHAR_BIT> bits(n);
+    bitset<sizeof(int) * 8> bits(n);
     long zeroCounter = 0;
     while(bits.count() > 0) {
         if(bits[0] == 0) zeroCounter++;
@@ -38,6 +23,24 @@ long sumXor(long n) {
     }
     return pow(2, zeroCounter);
 }
+
+long sumXor(long n){
+    if(n == 0) return 1;
+    bitset<sizeof(long) * 8> bits(n);
+    int firstOne = 0;
+    string bitstr = bits.to_string();
+    while(bitstr.at(firstOne) == '0') {
+        firstOne++;
+    }
+    int zeroCounter = 0;
+    for(int i = ++firstOne; i < bitstr.length(); i++) {
+        if(bitstr.at(i) == '0') {
+            zeroCounter++;
+        }
+    }
+    return pow(2, zeroCounter);
+}
+
 
 int main()
 {
